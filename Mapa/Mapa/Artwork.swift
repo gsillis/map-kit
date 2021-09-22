@@ -63,4 +63,40 @@ class Artwork: NSObject, MKAnnotation {
 
         return mapItem
     }
+
+    var makerTintColor: UIColor {
+        
+        switch discipline {
+            case "Monument":
+                return.red
+            case "Mural":
+                return .cyan
+            case "Plaque":
+                return .blue
+            case "Sculpture":
+                return .purple
+            default:
+                return .green
+        }
+    }
+
+    var image: UIImage {
+
+        guard let name = discipline else {
+            return  #imageLiteral(resourceName: "Flag")
+        }
+
+        switch name {
+            case "Monument":
+                return #imageLiteral(resourceName: "Monument")
+            case "Sculpture":
+                return #imageLiteral(resourceName: "Sculpture")
+            case "Plaque":
+                return #imageLiteral(resourceName: "Plaque")
+            case "Mural":
+                return #imageLiteral(resourceName: "Mural")
+            default:
+                return #imageLiteral(resourceName: "Flag")
+        }
+    }
 }

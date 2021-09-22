@@ -19,8 +19,14 @@ class ViewController: UIViewController {
         mapView.delegate = self
         mapView.centerToLocation(location: initLocation())
         configureMapZoom()
+        registerMapView()
         loadInitialData()
         mapView.addAnnotations(artworks)
+    }
+
+    private func registerMapView() {
+        mapView.register(ArtworkMarkerView.self,
+                         forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
 
     private func loadInitialData() {
@@ -72,28 +78,6 @@ private extension MKMapView {
 }
 
 extension ViewController: MKMapViewDelegate {
-     func mapView(_ mapview: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard let annotation = annotation as? Artwork else {
-            return nil
-        }
-
-        let identifier = "artwork"
-        var view: MKMarkerAnnotationView
-
-        if let dequeuedView = mapview.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
-            dequeuedView.annotation = annotation
-            view = dequeuedView
-
-        } else {
-
-            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            view.canShowCallout = true
-            view.calloutOffset = CGPoint(x: -5, y: 5)
-            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        }
-        return view
-    }
-
     // open the map if user taps info button
     func mapView( _ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let artwork = view.annotation as? Artwork else { return }
